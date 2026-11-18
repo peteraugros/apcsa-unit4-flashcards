@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AP CSA Unit 4 Flashcards</title>
+<meta name="description" content="Flashcards for AP Computer Science A Unit 4: Iteration.">
+<style>
+:root{--bg:#eef2f8;--ink:#1c2536;--muted:#5b6478;--brand:#1f3d7a;--brand2:#2f5fb3;--card:#fff;--line:#d5dcea;--good:#1f8a4c;--bad:#c0392b;--chip:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#121722;--ink:#e6ebf5;--muted:#9aa4ba;--brand:#8fb0ff;--brand2:#6f93e8;--card:#1d2433;--line:#30394d;--chip:#1d2433}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:18px 16px 40px}
+header h1{margin:0;font-size:1.5rem;color:var(--brand)}
+header p{margin:2px 0 14px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{border:1px solid var(--line);background:var(--chip);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:.9rem;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--brand2);border-color:var(--brand2);color:#fff}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0 10px;color:var(--muted);font-size:.9rem}
+.bar label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.progress{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin-bottom:14px}
+.progress div{height:100%;background:var(--good);width:0;transition:width .3s}
+.scene{perspective:1400px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.card{position:relative;min-height:340px;transition:transform .5s;transform-style:preserve-3d}
+.card.flipped{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;background:var(--card);border:1px solid var(--line);box-shadow:0 8px 24px rgba(20,30,60,.10);padding:22px 22px 44px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;overflow:auto}
+.back{transform:rotateY(180deg);border-top:6px solid var(--good)}
+.front{border-top:6px solid var(--brand2)}
+.tag{position:absolute;top:12px;left:16px;font-size:.78rem;color:var(--muted);text-align:left}
+.kind{position:absolute;top:12px;right:16px;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:6px;background:var(--bg);color:var(--muted)}
+.hint{position:absolute;bottom:12px;left:0;right:0;font-size:.78rem;color:var(--muted)}
+.txt{font-size:1.25rem;max-width:560px}
+.back .txt{font-size:1.15rem}
+.m{font-family:"STIX Two Math","Cambria Math","Times New Roman",serif;white-space:nowrap}
+code{font-family:Menlo,Consolas,monospace;font-size:.9em;background:var(--bg);padding:1px 4px;border-radius:4px}
+.txt{width:100%;min-width:0}
+@media (max-width:520px){pre{font-size:.62rem!important;padding:8px 6px!important}}
+pre{font-family:Menlo,Consolas,monospace;font-size:.82rem;line-height:1.4;text-align:left;background:#0f172a;color:#e2e8f0;padding:10px 12px;border-radius:10px;margin:10px auto 0;max-width:100%;overflow-x:auto;width:fit-content;min-width:min(320px,100%)}
+.out{font-family:Menlo,Consolas,monospace;font-size:1.05rem;font-weight:700;background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:8px 14px;margin:0 auto 10px;width:fit-content;text-align:left;white-space:pre}
+.diagram{width:min(300px,80%);margin:4px auto 10px;background:#fff;border-radius:10px;padding:4px}
+.diagram svg{width:100%;height:auto;display:block}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.controls.nav{grid-template-columns:auto 1fr auto}
+button.b{font:inherit;font-weight:600;border:0;border-radius:12px;padding:12px 14px;cursor:pointer;color:#fff}
+.b.bad{background:var(--bad)}.b.good{background:var(--good)}
+.b.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.count{align-self:center;text-align:center;color:var(--muted)}
+.done{text-align:center;padding:30px 10px}
+.done h2{color:var(--brand);margin:.2em 0}
+.keys{color:var(--muted);font-size:.8rem;text-align:center;margin-top:16px}
+@media (max-width:520px){.txt{font-size:1.1rem}.card{min-height:380px}.keys{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>AP CSA Unit 4 Flashcards</h1>
+<p>Iteration: while loops, for loops, string algorithms, nested loops</p>
+</header>
+<div class="chips" id="chips"></div>
+<div class="bar">
+<span id="stats"></span>
+<span style="display:flex;gap:14px;flex-wrap:wrap">
+<label><input type="checkbox" id="missedOnly"> Still learning only</label>
+<label><input type="checkbox" id="reverse"> Answer first</label>
+</span>
+</div>
+<div class="progress"><div id="prog"></div></div>
+<div id="stage"></div>
+<div class="controls nav">
+<button class="b ghost" id="prev" aria-label="Previous card">◀ Back</button>
+<button class="b ghost" id="shuffle">🔀 Shuffle</button>
+<button class="b ghost" id="next" aria-label="Next card">Next ▶</button>
+</div>
+<div class="keys">Space = flip · ← → = move · 1 = still learning · 2 = got it</div>
+</div>
+<script>
+const CARDS = [{"l": "L1", "f": "What does a <b>while loop</b> do?", "b": "Runs its body over and over <b>as long as</b> its condition is <code>true</code>. When the condition is <code>false</code>, the program moves on.", "k": "Vocab"}, {"l": "L1", "f": "When does Java check a while loop's condition?", "b": "<b>Before every pass</b>, including the first. If it is false at the start, the body <b>never runs</b>.", "k": "Rule"}, {"l": "L1", "f": "<code>if</code> vs. <code>while</code>: what's the difference?", "b": "<code>if</code> runs its body <b>once</b> (at most).<br><code>while</code> keeps running it until the condition is false.", "k": "Rule"}, {"l": "L1", "f": "What is a <b>counter variable</b>?", "b": "A variable that counts passes: 1) declare it (often 0), 2) use it in the condition, 3) add 1 to it inside the loop.", "k": "Vocab"}, {"l": "L1", "f": "What is an <b>infinite loop</b>, and the most common cause?", "b": "A loop that <b>never stops</b> because its condition never becomes false. Usually you <b>forgot to update</b> the variable in the condition.", "k": "Vocab"}, {"l": "L1", "f": "What is <b>scope</b>?", "b": "The part of the program where a variable can be used. A variable declared <b>inside</b> a loop's braces only exists inside that loop.", "k": "Vocab"}, {"l": "L1", "f": "A counter is declared <b>before</b> a while loop. Can the loop use it? Can code after the loop use it?", "b": "<b>Yes and yes.</b> Variables declared before the loop are visible inside it and after it.", "k": "Rule"}, {"l": "L1", "f": "What does this print?<pre>int x = 1;\nwhile (x &lt;= 3) {\n  System.out.println(x);\n  x = x + 1;\n}</pre>", "b": "<div class='out'>1<br>2<br>3</div>x goes 1, 2, 3, then 4 fails <code>x &lt;= 3</code>.", "k": "Try it"}, {"l": "L1", "f": "How many times does this print Hello!?<pre>int count = 0;\nwhile (count &lt; 5) {\n  System.out.println(&quot;Hello!&quot;);\n  count = count + 1;\n}</pre>", "b": "<div class='out'>Hello!<br>Hello!<br>Hello!<br>Hello!<br>Hello!</div><b>5 times</b> (count = 0, 1, 2, 3, 4). With <code>&lt;= 5</code> it would be 6.", "k": "Try it"}, {"l": "L1", "f": "What does this print?<pre>int n = 10;\nwhile (n &lt; 5) {\n  System.out.println(n);\n  n++;\n}\nSystem.out.println(&quot;done&quot;);</pre>", "b": "<div class='out'>done</div>10 &lt; 5 is false at the start, so the body <b>never runs</b>.", "k": "Try it"}, {"l": "L2", "f": "What is a <b>trace table</b>?", "b": "A grid you fill in by hand: <b>one row per pass</b> through the loop, <b>one column per variable</b> (or output).", "k": "Vocab"}, {"l": "L2", "f": "Formula: how many times does a simple counting loop run?", "b": "<b>iterations = last value that passes − starting value + 1</b>", "k": "Rule"}, {"l": "L2", "f": "What is the classic trap with <code>while (num &lt; 33)</code>?", "b": "<b>33 is never printed.</b> When num reaches 33 the condition is false, so the last value printed is 32.", "k": "Rule"}, {"l": "L2", "f": "What is the <b>first</b> and <b>last</b> value printed?<pre>int num = 21;\nwhile (num &lt; 33) {\n  System.out.println(num);\n  num++;\n}</pre>", "b": "<div class='out'>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32</div>First <b>21</b>, last <b>32</b>. It runs 32 − 21 + 1 = <b>12</b> times.", "k": "Try it"}, {"l": "L2", "f": "How many times does the loop body run?<pre>int k = 5;\nint runs = 0;\nwhile (k &lt;= 50) {\n  runs++;\n  k++;\n}\nSystem.out.println(runs);</pre>", "b": "<div class='out'>46</div>Last value that passes is 50: 50 − 5 + 1 = <b>46</b>.", "k": "Try it"}, {"l": "L2", "f": "Trace it: what is printed?<pre>int a = 2;\nwhile (a &lt; 20) {\n  a = a * 3;\n}\nSystem.out.println(a);</pre>", "b": "<div class='out'>54</div>a: 2 → 6 → 18 → <b>54</b>. 54 &lt; 20 is false, so the loop stops.", "k": "Try it"}, {"l": "L3", "f": "What does the <b>%</b> (modulus) operator give you?", "b": "The <b>remainder</b> after integer division. <code>10 % 3</code> is 1.", "k": "Vocab"}, {"l": "L3", "f": "How do you test if <code>a</code> is divisible by <code>b</code>?", "b": "<code>a % b == 0</code> (no remainder)", "k": "Rule"}, {"l": "L3", "f": "How do you test if a number <code>n</code> is even?", "b": "<code>n % 2 == 0</code>", "k": "Rule"}, {"l": "L3", "f": "What do <code>n % 10</code> and <code>n / 10</code> do?", "b": "<code>n % 10</code> → the <b>last digit</b><br><code>n / 10</code> → n with the last digit <b>removed</b> (integer division)", "k": "Rule"}, {"l": "L3", "f": "What is a <b>sentinel value</b>?", "b": "A special input (like <code>-1</code>) that means <b>“stop.”</b> The loop watches for it and never treats it as real data.", "k": "Vocab"}, {"l": "L3", "f": "Why start <code>max</code> at <code>Integer.MIN_VALUE</code>?", "b": "It is the smallest possible int, so the <b>first real number</b> is always bigger and becomes the first max.", "k": "Rule"}, {"l": "L3", "f": "In a sentinel loop, where do you read the next number?", "b": "At the <b>bottom</b> of the loop body, so the condition checks the new number before it is used.", "k": "Rule"}, {"l": "L3", "f": "What does this print?<pre>System.out.println(17 % 5);\nSystem.out.println(20 % 4);\nSystem.out.println(3 % 8);</pre>", "b": "<div class='out'>2<br>0<br>3</div>17 = 3·5 + <b>2</b>; 20 divides evenly → <b>0</b>; 3 is smaller than 8, so the remainder is <b>3</b>.", "k": "Try it"}, {"l": "L3", "f": "What does this print?<pre>int n = 472;\nwhile (n &gt; 0) {\n  System.out.println(n % 10);\n  n = n / 10;\n}</pre>", "b": "<div class='out'>2<br>7<br>4</div>The digits come out in <b>reverse</b> order, because % grabs the last digit first.", "k": "Try it"}, {"l": "L3", "f": "What does this print? (sum of digits)<pre>int n = 3025;\nint sum = 0;\nwhile (n &gt; 0) {\n  sum += n % 10;\n  n /= 10;\n}\nSystem.out.println(sum);</pre>", "b": "<div class='out'>10</div>5 + 2 + 0 + 3 = <b>10</b>", "k": "Try it"}, {"l": "L4", "f": "Name the <b>three parts</b> of a for loop header.", "b": "<code>for (<b>initialization</b>; <b>condition</b>; <b>update</b>)</code><br>e.g. <code>int i = 0; i &lt; 5; i++</code>", "k": "Vocab"}, {"l": "L4", "f": "In what order does a for loop run its parts?", "b": "Initialization <b>once</b>, then: check condition → body → update → check condition → …", "k": "Rule"}, {"l": "L4", "f": "When should you use a <b>for</b> loop vs. a <b>while</b> loop?", "b": "<b>for</b>: you know how many times it should run.<br><b>while</b>: it depends on something at runtime (like user input).", "k": "Rule"}, {"l": "L4", "f": "What is an <b>off-by-one error</b>?", "b": "A loop that runs <b>one time too many or too few</b>. Fix it by tracing the first and last value of i.", "k": "Vocab"}, {"l": "L4", "f": "What is the index of the first and last character of a String <code>s</code>?", "b": "First: <b>0</b><br>Last: <b><code>s.length() - 1</code></b>", "k": "Rule"}, {"l": "L4", "f": "What happens if a loop reads index <code>s.length()</code>?", "b": "An <b>IndexOutOfBoundsException</b> (StringIndexOutOfBoundsException). That index does not exist.", "k": "Rule"}, {"l": "L4", "f": "How do you get the one-letter String at index i?", "b": "<code>s.substring(i, i + 1)</code>", "k": "Rule"}, {"l": "L4", "f": "What does this print?<pre>for (int i = 0; i &lt; 5; i++) {\n  System.out.print(i + &quot; &quot;);\n}</pre>", "b": "<div class='out'>0 1 2 3 4 </div>5 is never printed: <code>5 &lt; 5</code> is false.", "k": "Try it"}, {"l": "L4", "f": "What does this print?<pre>for (int i = 10; i &gt; 0; i -= 3) {\n  System.out.print(i + &quot; &quot;);\n}</pre>", "b": "<div class='out'>10 7 4 1 </div>i: 10, 7, 4, 1, then −2 fails <code>i &gt; 0</code>.", "k": "Try it"}, {"l": "L4", "f": "How many times does this loop run?<pre>int runs = 0;\nfor (int i = 1; i &lt;= 5; i++) {\n  runs++;\n}\nSystem.out.println(runs);</pre>", "b": "<div class='out'>5</div>i = 1, 2, 3, 4, 5. With <code>i = 0; i &lt;= 5</code> it would be 6 (off by one).", "k": "Try it"}, {"l": "L4", "f": "What does this print?<pre>String word = &quot;java&quot;;\nfor (int i = 0; i &lt; word.length(); i++) {\n  System.out.print(word.substring(i, i + 1) + &quot;-&quot;);\n}</pre>", "b": "<div class='out'>j-a-v-a-</div>One letter per pass, from index 0 to 3.", "k": "Try it"}, {"l": "L5", "f": "What is <b>string traversal</b>?", "b": "Visiting <b>every character</b> of a String, one at a time, by index: <code>for (int i = 0; i &lt; s.length(); i++)</code>", "k": "Vocab"}, {"l": "L5", "f": "What does <code>s.charAt(i)</code> return?", "b": "The single <b>char</b> at index i. Compare chars with <code>==</code> and single quotes: <code>s.charAt(i) == 'e'</code>", "k": "Rule"}, {"l": "L5", "f": "Why does a two-letter search loop stop at <code>s.length() - 1</code>?", "b": "<code>substring(i, i + 2)</code> would reach <b>past the end</b> on the last index and crash. Subtract (pattern length − 1).", "k": "Rule"}, {"l": "L5", "f": "How do you compare two Strings? Why not <code>==</code>?", "b": "Use <code>.equals()</code>. <code>==</code> checks if they are the <b>same object</b>, not the same letters.", "k": "Rule"}, {"l": "L5", "f": "How do you <b>reverse</b> a String?", "b": "Loop <b>backward</b> from <code>s.length() - 1</code> down to 0 and add each char to a new String.", "k": "Rule"}, {"l": "L5", "f": "How do you <b>remove</b> a character (like every 'p')?", "b": "Loop forward and only add a char to the new String <b>if it is not</b> the one to remove (<code>!= 'p'</code>).", "k": "Rule"}, {"l": "L5", "f": "Does reversing or removing change the original String?", "b": "<b>No.</b> Strings never change; you build a <b>new</b> String one character at a time.", "k": "Rule"}, {"l": "L5", "f": "What does this print?<pre>String word = &quot;excellent&quot;;\nint count = 0;\nfor (int i = 0; i &lt; word.length(); i++) {\n  if (word.charAt(i) == &#x27;e&#x27;) {\n    count++;\n  }\n}\nSystem.out.println(count);</pre>", "b": "<div class='out'>3</div>'e' is at index 0, 3 and 6: <b>3</b>.", "k": "Try it"}, {"l": "L5", "f": "What does this print?<pre>String word = &quot;banaba&quot;;\nint count = 0;\nfor (int i = 0; i &lt; word.length() - 1; i++) {\n  if (word.substring(i, i + 2).equals(&quot;ba&quot;)) {\n    count++;\n  }\n}\nSystem.out.println(count);</pre>", "b": "<div class='out'>2</div>\"ba\" starts at index 0 and index 4.", "k": "Try it"}, {"l": "L5", "f": "What does this print?<pre>String word = &quot;stop&quot;;\nString rev = &quot;&quot;;\nfor (int i = word.length() - 1; i &gt;= 0; i--) {\n  rev = rev + word.charAt(i);\n}\nSystem.out.println(rev);</pre>", "b": "<div class='out'>pots</div>Backward from index 3 to 0: p, o, t, s.", "k": "Try it"}, {"l": "L5", "f": "What does this print?<pre>String word = &quot;banana&quot;;\nString result = &quot;&quot;;\nfor (int i = 0; i &lt; word.length(); i++) {\n  if (word.charAt(i) != &#x27;a&#x27;) {\n    result = result + word.charAt(i);\n  }\n}\nSystem.out.println(result);</pre>", "b": "<div class='out'>bnn</div>Every 'a' is skipped; everything else is added.", "k": "Try it"}, {"l": "L6", "f": "What is a <b>nested loop</b>?", "b": "A loop <b>inside</b> another loop.", "k": "Vocab"}, {"l": "L6", "f": "In a nested loop, which loop finishes first?", "b": "The <b>inner</b> loop runs <b>all the way through</b> for each single step of the outer loop. (Like a clock: seconds finish a lap before the minute moves.)", "k": "Rule"}, {"l": "L6", "f": "Outer loop runs 3 times, inner loop runs 4 times each. How many times does the inner body run?", "b": "3 × 4 = <b>12</b>", "k": "Rule"}, {"l": "L6", "f": "Which loop controls the <b>rows</b> and which controls <b>what is on each row</b>?", "b": "<b>Outer</b> loop → how many rows.<br><b>Inner</b> loop → what appears on each row.", "k": "Rule"}, {"l": "L6", "f": "What happens to the inner loop variable when the outer loop takes its next step?", "b": "It <b>resets</b> to its starting value. Forgetting this is the #1 trace-table mistake.", "k": "Rule"}, {"l": "L6", "f": "What does this print?<pre>for (int i = 0; i &lt; 3; i++) {\n  for (int j = 0; j &lt; 4; j++) {\n    System.out.print(&quot;Java&quot;.charAt(j));\n  }\n  System.out.println();\n}</pre>", "b": "<div class='out'>Java<br>Java<br>Java</div>3 rows (outer), and each row prints the 4 letters (inner).", "k": "Try it"}, {"l": "L6", "f": "What does this print?<pre>for (int i = 1; i &lt;= 3; i++) {\n  for (int j = 1; j &lt;= i; j++) {\n    System.out.print(&quot;*&quot;);\n  }\n  System.out.println();\n}</pre>", "b": "<div class='out'>*<br>**<br>***</div>The inner loop uses <code>i</code>, so row i has i stars.", "k": "Try it"}, {"l": "L6", "f": "What does this print?<pre>for (int i = 4; i &gt;= 2; i--) {\n  for (int j = i; j &lt; 7; j++) {\n    System.out.print(j + &quot; &quot;);\n  }\n  System.out.println();\n}</pre>", "b": "<div class='out'>4 5 6 <br>3 4 5 6 <br>2 3 4 5 6 </div>As i goes <b>down</b>, the inner loop starts earlier, so each row is longer.", "k": "Try it"}, {"l": "L6", "f": "What does this print?<pre>for (int i = 1; i &lt;= 2; i++) {\n  for (int j = 1; j &lt;= 3; j++) {\n    System.out.print(i * j + &quot; &quot;);\n  }\n  System.out.println();\n}</pre>", "b": "<div class='out'>1 2 3 <br>2 4 6 </div>Row i shows i×1, i×2, i×3.", "k": "Try it"}, {"l": "L7", "f": "What is an <b>execution count</b>?", "b": "How many times a line of code runs. A line inside a loop runs <b>once per iteration</b>.", "k": "Vocab"}, {"l": "L7", "f": "How do you measure an execution count?", "b": "Add a <code>count</code> variable that starts at 0 and does <code>count++</code> inside the loop body.", "k": "Rule"}, {"l": "L7", "f": "Why does efficiency matter? (name a few)", "b": "<b>Speed, memory, scalability, battery life, cost, user experience.</b> Two programs can give the same answer, one in ms, one in minutes.", "k": "Vocab"}, {"l": "L7", "f": "A word has n letters. Two nested loops each go 0 to n. How many inner executions?", "b": "<b>n × n</b> (10 letters → 100).", "k": "Rule"}, {"l": "L7", "f": "How do you skip <b>redundant comparisons</b> in nested loops?", "b": "Start the inner loop at <code>j = i + 1</code> instead of 0, so each pair is checked <b>only once</b>.", "k": "Rule"}, {"l": "L7", "f": "What does this print?<pre>int count = 0;\nfor (int i = 0; i &lt; 10; i++) {\n  count++;\n}\nSystem.out.println(count);</pre>", "b": "<div class='out'>10</div>The body runs once per iteration: <b>10</b>.", "k": "Try it"}, {"l": "L7", "f": "What does this print?<pre>int count = 0;\nfor (int i = 0; i &lt; 10; i++) {\n  for (int j = 0; j &lt; 10; j++) {\n    count++;\n  }\n}\nSystem.out.println(count);</pre>", "b": "<div class='out'>100</div>10 × 10 = <b>100</b>", "k": "Try it"}, {"l": "L7", "f": "What does this print?<pre>int count = 0;\nfor (int i = 0; i &lt; 10; i++) {\n  for (int j = i + 1; j &lt; 10; j++) {\n    count++;\n  }\n}\nSystem.out.println(count);</pre>", "b": "<div class='out'>45</div>9 + 8 + … + 1 = <b>45</b>. Same pairs checked, 55 fewer executions.", "k": "Try it"}, {"l": "L7", "f": "What does this print?<pre>int count = 0;\nfor (int i = 0; i &lt; 5; i++) {\n  for (int j = 0; j &lt; 3; j++) {\n    count++;\n  }\n  count++;\n}\nSystem.out.println(count);</pre>", "b": "<div class='out'>20</div>Each outer pass: 3 inner + 1 = 4. 5 × 4 = <b>20</b>.", "k": "Try it"}];
+const LESSONS = {"L1": "While Loops", "L2": "Tracing Code", "L3": "Algorithms for Numbers", "L4": "The For Loop", "L5": "Algorithms for Strings", "L6": "Nested Loops", "L7": "Algorithm Efficiency"};
+const DIAGRAM = "";
+CARDS.forEach((c, i) => c.id = c.l + ":" + i);
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+let marks = store.get("csa4-marks", {});      // id -> "got" | "miss"
+let lesson = store.get("csa4-lesson", "all");
+let deck = [], pos = 0, flipped = false;
+const $ = id => document.getElementById(id);
+
+function buildChips() {
+  const ids = ["all", ...Object.keys(LESSONS)];
+  $("chips").innerHTML = ids.map(id =>
+    `<button class="chip" data-l="${id}" title="${id === "all" ? "All lessons" : LESSONS[id]}" aria-pressed="${id === lesson}">${id === "all" ? "All" : "Lesson " + id.slice(1)}</button>`).join("");
+  $("chips").onclick = e => {
+    const b = e.target.closest(".chip"); if (!b) return;
+    lesson = b.dataset.l; store.set("csa4-lesson", lesson); buildChips(); makeDeck(false);
+  };
+}
+function makeDeck(shuffle) {
+  deck = CARDS.filter(c => (lesson === "all" || c.l === lesson) && (!$("missedOnly").checked || marks[c.id] !== "got"));
+  if (shuffle) for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+  pos = 0; render();
+}
+function fill(html) {
+  return html.includes("[[DIAGRAM]]") ? `<div class="diagram">${DIAGRAM}</div>` + html.replace("[[DIAGRAM]]", "") : html;
+}
+function render() {
+  flipped = false;
+  const pool = CARDS.filter(c => lesson === "all" || c.l === lesson);
+  const got = pool.filter(c => marks[c.id] === "got").length;
+  $("stats").textContent = `${lesson === "all" ? "All lessons" : "Lesson " + lesson.slice(1) + ": " + LESSONS[lesson]} · ✅ ${got} of ${pool.length} learned`;
+  $("prog").style.width = (pool.length ? 100 * got / pool.length : 0) + "%";
+  if (!deck.length || pos >= deck.length) {
+    $("stage").innerHTML = `<div class="face done" style="position:static;min-height:300px"><div style="font-size:3rem">🎉</div>
+      <h2>${deck.length ? "You finished this set!" : "Nothing left to study here!"}</h2>
+      <p>${got} of ${pool.length} cards marked “Got it.”</p>
+      <div class="controls" style="width:100%;max-width:420px">
+      <button class="b ghost" onclick="pos=0;$('missedOnly').checked=false;makeDeck(true)">Study all again</button>
+      <button class="b bad" onclick="$('missedOnly').checked=true;makeDeck(true)">Only “still learning”</button></div>
+      <p style="margin-top:14px"><a href="#" onclick="if(confirm('Clear all your progress?')){marks={};store.set('csa4-marks',marks);makeDeck(false)}return false" style="color:var(--muted)">Reset progress</a></p></div>`;
+    return;
+  }
+  const c = deck[pos], rev = $("reverse").checked;
+  const mark = marks[c.id] === "got" ? " · ✅" : marks[c.id] === "miss" ? " · 🔁" : "";
+  const face = (cls, body, hint) => `<div class="face ${cls}"><div class="tag">Lesson ${c.l.slice(1)}: ${LESSONS[c.l]}${mark}</div><div class="kind">${c.k}</div><div class="txt">${fill(body)}</div><div class="hint">${hint}</div></div>`;
+  $("stage").innerHTML = `<div class="scene" id="scene"><div class="card" id="card">
+    ${face("front", rev ? c.b : c.f, "Tap to flip · card " + (pos + 1) + " of " + deck.length)}
+    ${face("back", rev ? c.f : c.b, "How did you do?")}</div></div>
+    <div class="controls"><button class="b bad" id="miss">🔁 Still learning</button><button class="b good" id="got">✅ Got it</button></div>`;
+  $("scene").onclick = flip;
+  $("miss").onclick = () => grade("miss");
+  $("got").onclick = () => grade("got");
+}
+function flip() { flipped = !flipped; const el = $("card"); if (el) el.classList.toggle("flipped", flipped); }
+function grade(g) { const c = deck[pos]; if (!c) return; marks[c.id] = g; store.set("csa4-marks", marks); pos++; render(); }
+function move(d) { if (!deck.length) return; pos = Math.max(0, Math.min(deck.length - 1, pos + d)); render(); }
+$("prev").onclick = () => move(-1);
+$("next").onclick = () => { if (pos >= deck.length) return; pos++; render(); };
+$("shuffle").onclick = () => makeDeck(true);
+$("missedOnly").onchange = () => makeDeck(false);
+$("reverse").onchange = render;
+document.addEventListener("keydown", e => {
+  if (e.target.tagName === "INPUT") return;
+  if (e.key === " " || e.key === "Enter") { e.preventDefault(); flip(); }
+  else if (e.key === "ArrowRight") { if (pos < deck.length) { pos++; render(); } }
+  else if (e.key === "ArrowLeft") move(-1);
+  else if (e.key === "1") grade("miss");
+  else if (e.key === "2") grade("got");
+});
+let sx = null;
+document.addEventListener("touchstart", e => { sx = e.touches[0].clientX; }, { passive: true });
+document.addEventListener("touchend", e => {
+  if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; sx = null;
+  if (Math.abs(dx) > 60 && e.target.closest(".scene")) { dx < 0 ? (pos < deck.length && (pos++, render())) : move(-1); }
+});
+buildChips(); makeDeck(false);
+</script>
+</body>
+</html>
